@@ -412,14 +412,14 @@ html[lang="zh"] .hero .p{white-space:normal;flex-wrap:wrap;row-gap:4px}html[lang
       <p data-i18n="e312">玄関からLDK、バルコニーの眺望、<br class="sp">洋室・キッチン・水まわりまで。<br>2026年11月に撮影した内覧動画です（1.6倍速・雨天）。</p>
     </div>
     <div class="walk-v rv">
-      <video class="lazy" muted loop playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5-page" preload="none" poster="img/poster_walk.jpg" data-mp4="video/walkthrough.mp4?v=16"></video>
+      <video class="lazy" muted loop playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5-page" preload="none" data-poster="img/poster_walk.jpg" data-mp4="video/walkthrough.mp4?v=16"></video>
     </div>
   </div>
 </section>
 
 <!-- 05 ENTRANCE / RESIDENCE -->
 <section class="movie short">
-  <video class="lazy" muted loop playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5-page" preload="none" poster="img/poster_entrance.jpg" data-webm="video/loop_entrance.webm" data-mp4="video/loop_entrance.mp4"></video>
+  <video class="lazy" muted loop playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5-page" preload="none" data-poster="img/poster_entrance.jpg" data-webm="video/loop_entrance.webm" data-mp4="video/loop_entrance.mp4"></video>
   <div class="cap">
     <p class="no">04 — Entrance &amp; Residence</p>
     <h2 data-i18n="t054">水辺に立ち上がる、<br>2棟のタワー</h2>
@@ -455,7 +455,7 @@ html[lang="zh"] .hero .p{white-space:normal;flex-wrap:wrap;row-gap:4px}html[lang
 
 <!-- 06 MOVIE -->
 <section class="movie">
-  <video class="lazy sp34" muted loop playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5-page" preload="none" poster="img/poster_movie.jpg" data-webm="video/loop_movie.webm" data-mp4="video/loop_movie.mp4" data-poster-sp="img/poster_movie_sp.jpg" data-webm-sp="video/loop_movie_sp.webm" data-mp4-sp="video/loop_movie_sp.mp4"></video>
+  <video class="lazy sp34" muted loop playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5-page" preload="none" data-poster="img/poster_movie.jpg" data-webm="video/loop_movie.webm" data-mp4="video/loop_movie.mp4" data-poster-sp="img/poster_movie_sp.jpg" data-webm-sp="video/loop_movie_sp.webm" data-mp4-sp="video/loop_movie_sp.mp4"></video>
   <div class="cap">
     <p class="no">05 — Movie</p>
     <h2 data-i18n="t072">海と空のあいだに、<br>53階建ツインタワー</h2>
@@ -465,7 +465,7 @@ html[lang="zh"] .hero .p{white-space:normal;flex-wrap:wrap;row-gap:4px}html[lang
 
 <!-- 07 COMMON SPACE -->
 <section class="movie wide" id="tl-sky">
-  <video class="lazy" muted loop playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5-page" preload="none" poster="img/poster_skylounge_tl.jpg" data-mp4="video/skylounge_timelapse.mp4"></video>
+  <video class="lazy" muted loop playsinline webkit-playsinline x5-playsinline x5-video-player-type="h5-page" preload="none" data-poster="img/poster_skylounge_tl.jpg" data-mp4="video/skylounge_timelapse.mp4"></video>
   <div class="cap">
     <p class="no">06 — Common Space</p>
     <h2 data-i18n="t074">ホテルのような、<br>ラグジュアリーな共用空間</h2>
@@ -705,11 +705,11 @@ html[lang="zh"] .hero .p{white-space:normal;flex-wrap:wrap;row-gap:4px}html[lang
   document.querySelectorAll('.rv,.zoom').forEach(function(el){io.observe(el)});
   // lazy videos: 1画面手前で読み込み、画面外では停止
   var lio=new IntersectionObserver(function(es){es.forEach(function(e){var v=e.target;
-    if(e.isIntersecting){ v.dataset.vis='1'; if(!v.dataset.loaded){ if(!saveData){ if(portrait&&v.dataset.mp4Sp){addSrc(v,v.dataset.webmSp,v.dataset.mp4Sp);}else{addSrc(v,v.dataset.webm,v.dataset.mp4);} } v.dataset.loaded='1'; } tryPlay(v);
+    if(e.isIntersecting){ v.dataset.vis='1'; if(v.dataset.poster&&!v.getAttribute('poster')){v.poster=v.dataset.poster;} if(!v.dataset.loaded){ if(!saveData){ if(portrait&&v.dataset.mp4Sp){addSrc(v,v.dataset.webmSp,v.dataset.mp4Sp);}else{addSrc(v,v.dataset.webm,v.dataset.mp4);} } v.dataset.loaded='1'; } tryPlay(v);
       var n=0; (function retry(){ if(n++<6&&v.dataset.vis&&v.paused){ tryPlay(v); setTimeout(retry,1500);} })(); }
     else{ v.dataset.vis=''; if(v.dataset.loaded){ v.pause(); } }
   })},{rootMargin:'100% 0px 100% 0px',threshold:0.01});
-  document.querySelectorAll('video.lazy').forEach(function(v){ if(portrait&&v.dataset.posterSp){v.poster=v.dataset.posterSp;} lio.observe(v)});  // 縦画面は SP 版（3:4・横幅固定）
+  document.querySelectorAll('video.lazy').forEach(function(v){ if(portrait&&v.dataset.posterSp){v.dataset.poster=v.dataset.posterSp;} lio.observe(v)});  // 縦画面は SP 版（3:4・横幅固定）
   // WeChat内蔵ブラウザ対策: JSBridge準備完了時と最初のタッチ/スクロール時に、画面内の動画を再生し直す
   function kick(){ if(!saveData){ if(hv.paused){tryPlay(hv);} document.querySelectorAll('video.lazy').forEach(function(v){ if(v.dataset.vis&&v.dataset.loaded&&v.paused){tryPlay(v);} }); } }
   if(window.WeixinJSBridge){kick();}else{document.addEventListener('WeixinJSBridgeReady',kick,false);}
